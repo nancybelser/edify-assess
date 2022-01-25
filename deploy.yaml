@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nancy-devops-assessment
+  labels:
+    app: nancy-devops-assessment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+        app: nancy-devops-assessment
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: nancy-devops-assessment
+    spec:
+      containers:
+      - image: nancybelser/devops-assessment-nancy
+        name: nancy-devops-assessment
+        ports:
+        - containerPort: 3000
+        resources: {}
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nancy-devops-assessment-service
+  labels:
+    app: nancy-devops-assessment
+spec:
+  selector:
+    app: nancy-devops-assessment
+  type: NodePort
+  ports:
+  - port: 3000
+    nodePort: 31364
+    targetPort: 3000
+    protocol: TCP
+    name: http
